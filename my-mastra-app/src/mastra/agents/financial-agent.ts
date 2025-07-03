@@ -51,4 +51,3 @@ ROLE DEFINITION
     model: google("gemini-2.5-flash"), // You can use "gpt-3.5-turbo" if you prefer
     tools: await mcp.getTools(), // We'll add tools in a later step
   });
-}
