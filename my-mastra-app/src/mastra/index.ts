@@ -1,35 +1,27 @@
-
+// src/mastra/index.ts
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
 import { weatherWorkflow } from './workflows/weather-workflow';
 import { weatherAgent } from './agents/weather-agent';
-import { financialAgent } from "./agents/financial-agent";
+import { createFinancialAgent } from "./agents/financial-agent";
 import { getTransactionsTool } from "./tools/get-transactions-tool";
-
 import { MCPClient } from "@mastra/mcp";
 
 const mcp = new MCPClient({
   servers: {
-    // We'll add servers in the next steps
+    // ...add servers here...
   },
 });
-async function setupAgent() {
+
+export const mastraPromise = (async () => {
   const mcpTools = await mcp.getTools();
-  // Now you can use mcpTools to configure your agent
-}
+  const financialAgent = createFinancialAgent({ getTransactionsTool, ...mcpTools });
 
-export const mastra = new Mastra({
-  workflows: { weatherWorkflow },
-  agents: { weatherAgent ,financialAgent },
-  storage: new LibSQLStore({
-    // stores telemetry, evals, ... into memory storage, if it needs to persist, change to file:../mastra.db
-    url: ":memory:",
-  }),
-  logger: new PinoLogger({
-    name: 'Mastra',
-    level: 'info',
-  }),
-});
-
-
+  return new Mastra({
+    workflows: { weatherWorkflow },
+    agents: { weatherAgent, financialAgent },
+    storage: new LibSQLStore({ url: ":memory:" }),
+    logger: new PinoLogger({ name: 'Mastra', level: 'info' }),
+  });
+})();

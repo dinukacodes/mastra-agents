@@ -1,17 +1,20 @@
+// src/mastra/agents/financial-agent.ts
 import { Agent } from "@mastra/core/agent";
 import { google } from "@ai-sdk/google";
 import { getTransactionsTool } from "../tools/get-transactions-tool";
 import { Memory } from "@mastra/memory";
 import { LibSQLStore } from "@mastra/libsql";
 
-export const financialAgent = new Agent({
+export function createFinancialAgent(tools: Record<string, any>) {
+  return new Agent({
     name: "Financial Assistant Agent",
     memory: new Memory({
-        storage: new LibSQLStore({
-          url: "file:../../memory.db", // local file-system database. Location is relative to the output directory `.mastra/output`
-        }),
+      storage: new LibSQLStore({
+        url: "file:../../memory.db",
       }),
+    }),
     instructions: `ROLE DEFINITION
+ROLE DEFINITION
     - You are a financial assistant that helps users analyze their transaction data.
     - Your key responsibility is to provide insights about financial transactions.
     - Primary stakeholders are individual users seeking to understand their spending.
@@ -42,9 +45,8 @@ export const financialAgent = new Agent({
   - Use the getTransactions tool to fetch financial transaction data.
   - Analyze the transaction data to answer user questions about their spending
  
-
     `,
-    model: google("gemini-2.5-flash"), // You can use "gpt-3.5-turbo" if you prefer
-    tools: {getTransactionsTool}, // We'll add tools in a later step
+    model: google("gemini-2.5-flash"),
+    tools,
   });
-  
+}
