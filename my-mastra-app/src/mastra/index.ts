@@ -6,22 +6,20 @@ import { weatherWorkflow } from './workflows/weather-workflow';
 import { weatherAgent } from './agents/weather-agent';
 import { createFinancialAgent } from "./agents/financial-agent";
 import { getTransactionsTool } from "./tools/get-transactions-tool";
-import { MCPClient } from "@mastra/mcp";
+import { personalAssistantAgent } from './agents/personal-assistant';
 
-const mcp = new MCPClient({
-  servers: {
-    // ...add servers here...
-  },
+
+export const mastra = new Mastra({
+  workflows: { weatherWorkflow },
+  agents: { weatherAgent ,financialAgent,personalAssistantAgent },
+  storage: new LibSQLStore({
+    // stores telemetry, evals, ... into memory storage, if it needs to persist, change to file:../mastra.db
+    url: ":memory:",
+  }),
+  logger: new PinoLogger({
+    name: 'Mastra',
+    level: 'info',
+  }),
 });
 
-export const mastraPromise = (async () => {
-  const mcpTools = await mcp.getTools();
-  const financialAgent = createFinancialAgent({ getTransactionsTool, ...mcpTools });
 
-  return new Mastra({
-    workflows: { weatherWorkflow },
-    agents: { weatherAgent, financialAgent },
-    storage: new LibSQLStore({ url: ":memory:" }),
-    logger: new PinoLogger({ name: 'Mastra', level: 'info' }),
-  });
-})();

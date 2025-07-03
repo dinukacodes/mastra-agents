@@ -4,9 +4,11 @@ import { google } from "@ai-sdk/google";
 import { getTransactionsTool } from "../tools/get-transactions-tool";
 import { Memory } from "@mastra/memory";
 import { LibSQLStore } from "@mastra/libsql";
+import { mcp } from "./personal-assistant";
 
-export function createFinancialAgent(tools: Record<string, any>) {
-  return new Agent({
+
+
+export const financialAgent = new Agent({
     name: "Financial Assistant Agent",
     memory: new Memory({
       storage: new LibSQLStore({
@@ -46,7 +48,7 @@ ROLE DEFINITION
   - Analyze the transaction data to answer user questions about their spending
  
     `,
-    model: google("gemini-2.5-flash"),
-    tools,
+    model: google("gemini-2.5-flash"), // You can use "gpt-3.5-turbo" if you prefer
+    tools: await mcp.getTools(), // We'll add tools in a later step
   });
 }
