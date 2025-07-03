@@ -1,8 +1,19 @@
 import { Agent } from "@mastra/core/agent";
 import { google } from "@ai-sdk/google";
 import { getTransactionsTool } from "../tools/get-transactions-tool";
+import { Memory } from "@mastra/memory";
+import { LibSQLStore } from "@mastra/libsql";
+
+
+
+
 export const financialAgent = new Agent({
     name: "Financial Assistant Agent",
+    memory: new Memory({
+        storage: new LibSQLStore({
+          url: "file:../../memory.db", // local file-system database. Location is relative to the output directory `.mastra/output`
+        }),
+      }),
     instructions: `ROLE DEFINITION
     - You are a financial assistant that helps users analyze their transaction data.
     - Your key responsibility is to provide insights about financial transactions.
