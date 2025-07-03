@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Always use MCP tools when instructed
+globs:
+alwaysApply: true
+---
+
+- Whenever the user instructs to use MCP tools, always prioritize MCP servers and their tools for relevant tasks.
+- Use MCP tools for debugging, troubleshooting, code generation, and any workflow where MCP is applicable.
+- If multiple MCP tools are available, select the most relevant one based on the task.
+- Confirm with the user if a tool requires manual server start (e.g., Browser Tools MCP).
+- Never bypass MCP tools when the user explicitly requests their use.
+
