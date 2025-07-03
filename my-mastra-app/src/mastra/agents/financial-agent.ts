@@ -4,9 +4,6 @@ import { getTransactionsTool } from "../tools/get-transactions-tool";
 import { Memory } from "@mastra/memory";
 import { LibSQLStore } from "@mastra/libsql";
 
-
-
-
 export const financialAgent = new Agent({
     name: "Financial Assistant Agent",
     memory: new Memory({

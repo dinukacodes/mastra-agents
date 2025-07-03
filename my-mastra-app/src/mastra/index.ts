@@ -7,6 +7,17 @@ import { weatherAgent } from './agents/weather-agent';
 import { financialAgent } from "./agents/financial-agent";
 import { getTransactionsTool } from "./tools/get-transactions-tool";
 
+import { MCPClient } from "@mastra/mcp";
+
+const mcp = new MCPClient({
+  servers: {
+    // We'll add servers in the next steps
+  },
+});
+async function setupAgent() {
+  const mcpTools = await mcp.getTools();
+  // Now you can use mcpTools to configure your agent
+}
 
 export const mastra = new Mastra({
   workflows: { weatherWorkflow },
