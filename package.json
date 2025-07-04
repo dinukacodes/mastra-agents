@@ -2,6 +2,8 @@
   "dependencies": {
     "@mastra/libsql": "^0.11.0",
     "@mastra/mcp": "^0.10.5",
-    "@mastra/memory": "^0.11.1"
+    "@mastra/memory": "^0.11.1",
+    "composio-core": "^0.5.39",
+    "openai": "^5.8.2"
   }
 }

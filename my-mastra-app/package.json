@@ -18,10 +18,13 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.22",
+    "@ai-sdk/groq": "^1.2.9",
     "@mastra/core": "^0.10.9",
     "@mastra/libsql": "^0.11.0",
     "@mastra/loggers": "^0.10.2",
     "@mastra/memory": "^0.11.1",
+    "ai": "^4.3.16",
+    "composio-core": "^0.5.39",
     "zod": "^3.25.67"
   },
   "devDependencies": {

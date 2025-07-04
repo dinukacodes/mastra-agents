@@ -1,22 +1,47 @@
 import { Agent } from "@mastra/core/agent";
 import { google } from "@ai-sdk/google";
 import {MCPClient} from "@mastra/mcp";
+import {groq} from "@ai-sdk/groq";
+import { Memory } from "@mastra/memory";
+import { LibSQLStore } from "@mastra/libsql";
+import path from "path";
+
+
+
+
+
 
 export const mcp = new MCPClient({
     servers: {
-        zapier: {
-            url: new URL(process.env.ZAPIER_MCP_URL || ""),
-         
+      zapier: {
+        url: new URL(process.env.ZAPIER_MCP_URL || ""),
+      },
+      github: {
+        url: new URL(process.env.COMPOSIO_MCP_GITHUB || ""),
+      },
+      hackernews: {
+        command: "npx",
+        args: ["-y", "@devabdultech/hn-mcp-server"],
+      },
+      textEditor: {
+        command: "pnpx",
+        args: [
+          "@modelcontextprotocol/server-filesystem",
+          path.join(process.cwd(), "..", "..", "notes"),
+        ],
+      },
     },
-
-},
-});
-
+  });
 
 
 export const personalAssistantAgent = 
    new Agent({
     name: "Personal Assistant",
+    memory: new Memory({
+      storage: new LibSQLStore({
+        url: "file:../../memory.db",
+      }),
+    }),
     description: "A helpful personal assistant that can manage tasks, answer questions, and use connected tools.",
     instructions: `
       ROLE DEFINITION
@@ -41,10 +66,24 @@ export const personalAssistantAgent =
        - Use these tools for reading and categorizing emails from Gmail
        - You can categorize emails by priority, identify action items, and summarize content
        - You can also use this tool to send emails
+    2. GitHub:
+       - Use these tools for monitoring and summarizing GitHub activity
+       - You can summarize recent commits, pull requests, issues, and development patterns
+    
 
     Keep your responses concise and friendly.
+      3. Hackernews:
+       - Use this tool to search for stories on Hackernews
+       - You can use it to get the top stories or specific stories
+       - You can use it to retrieve comments for stories
+     4. Filesystem:
+       - You also have filesystem read/write access to a notes directory. 
+       - You can use that to store info for later use or organize info for the user.
+       - You can use this notes directory to keep track of to-do list items for the user.
+       - Notes dir: ${path.join(process.cwd(), "notes")}
+    
     `,
-    model: google("gemini-2.5-flash"),
+    model: groq("deepseek-r1-distill-llama-70b"),
     tools: await mcp.getTools(),
   });
 
