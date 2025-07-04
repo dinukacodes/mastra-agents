@@ -3,10 +3,42 @@ import { google } from "@ai-sdk/google";
 import {MCPClient} from "@mastra/mcp";
 import {groq} from "@ai-sdk/groq";
 import { Memory } from "@mastra/memory";
-import { LibSQLStore } from "@mastra/libsql";
 import path from "path";
+import { openai } from "@ai-sdk/openai";
 
 
+import { LibSQLStore, LibSQLVector } from "@mastra/libsql";
+
+const memory = new Memory({
+  storage: new LibSQLStore({
+    url: "file:../../memory.db",
+  }),
+  vector: new LibSQLVector({
+    connectionUrl: "file:../../memory.db",
+  }),
+  embedder: openai.embedding("text-embedding-3-small"),
+  options: {
+    lastMessages: 20,
+    semanticRecall: {
+      topK: 3,
+      messageRange: {
+        before: 2,
+        after: 1,
+      },
+    },
+    workingMemory: {
+      enabled: true,
+      template: `
+      <user>
+         <first_name></first_name>
+         <username></username>
+         <preferences></preferences>
+         <interests></interests>
+         <conversation_style></conversation_style>
+       </user>`,
+    },
+  },
+});
 
 
 
@@ -37,11 +69,7 @@ export const mcp = new MCPClient({
 export const personalAssistantAgent = 
    new Agent({
     name: "Personal Assistant",
-    memory: new Memory({
-      storage: new LibSQLStore({
-        url: "file:../../memory.db",
-      }),
-    }),
+    memory,
     description: "A helpful personal assistant that can manage tasks, answer questions, and use connected tools.",
     instructions: `
       ROLE DEFINITION
