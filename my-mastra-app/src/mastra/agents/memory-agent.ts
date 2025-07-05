@@ -13,6 +13,34 @@ const memory = new Memory({
     lastMessages: 20,
     workingMemory:{
       enabled:true,
+      template: `
+      # User Profile
+
+      ## Personal Info
+      - Name:
+      - Location:
+      - Timezone:
+      - Occupation:
+
+      ## Preferences
+      - Communication Style:
+      - Topics of Interest:
+      - Learning Goals:
+
+      ## Project Information
+      - Current Projects:
+        - [Project 1]:
+          - Deadline:
+          - Status:
+        - [Project 2]:
+          - Deadline:
+          - Status:
+
+      ## Session State
+      - Current Topic:
+      - Open Questions:
+      - Action Items:
+      `,
     },
 
   },
