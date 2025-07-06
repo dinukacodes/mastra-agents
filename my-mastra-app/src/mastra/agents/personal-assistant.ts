@@ -43,27 +43,27 @@ const memory = new Memory({
 
 
 
-export const mcp = new MCPClient({
-    servers: {
-      zapier: {
-        url: new URL(process.env.ZAPIER_MCP_URL || ""),
-      },
-      github: {
-        url: new URL(process.env.COMPOSIO_MCP_GITHUB || ""),
-      },
-      hackernews: {
-        command: "npx",
-        args: ["-y", "@devabdultech/hn-mcp-server"],
-      },
-      textEditor: {
-        command: "pnpx",
-        args: [
-          "@modelcontextprotocol/server-filesystem",
-          path.join(process.cwd(), "..", "..", "notes"),
-        ],
-      },
-    },
-  });
+// export const mcp = new MCPClient({
+//     servers: {
+//       zapier: {
+//         url: new URL(process.env.ZAPIER_MCP_URL || ""),
+//       },
+//       github: {
+//         url: new URL(process.env.COMPOSIO_MCP_GITHUB || ""),
+//       },
+//       hackernews: {
+//         command: "npx",
+//         args: ["-y", "@devabdultech/hn-mcp-server"],
+//       },
+//       textEditor: {
+//         command: "pnpx",
+//         args: [
+//           "@modelcontextprotocol/server-filesystem",
+//           path.join(process.cwd(), "..", "..", "notes"),
+//         ],
+//       },
+//     },
+//   });
 
 
 export const personalAssistantAgent = 
@@ -112,7 +112,7 @@ export const personalAssistantAgent =
     
     `,
     model: groq("deepseek-r1-distill-llama-70b"),
-    tools: await mcp.getTools(),
+    // tools: await mcp.getTools(),
   });
 
  
