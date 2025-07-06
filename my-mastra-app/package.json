@@ -27,11 +27,12 @@
     "ai": "^4.3.16",
     "composio-core": "^0.5.39",
     "dotenv": "^17.0.1",
-    "zod": "^3.25.67"
+    "zod": "^3.25.67",
+    "mastra": "^0.10.9"
+
   },
   "devDependencies": {
     "@types/node": "^24.0.10",
-    "mastra": "^0.10.9",
     "typescript": "^5.8.3"
   }
 }
