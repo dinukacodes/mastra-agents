@@ -1,4 +1,6 @@
 // src/mastra/index.ts
+
+import 'dotenv/config';
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
@@ -13,8 +15,8 @@ import { contentAgent } from './agents/content-agent';
 import { parallelAnalysisWorkflow } from './workflows/parralel-workflow';
 import { conditionalWorkflow } from './workflows/conditional-workflow';
 import { personalAssistantAgent } from './agents/personal-assistant';
-
 const port = parseInt(process.env.PORT || "4111", 10);
+
 
 
 export const mastra = new Mastra({
