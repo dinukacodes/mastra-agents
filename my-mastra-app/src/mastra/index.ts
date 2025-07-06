@@ -14,6 +14,9 @@ import { parallelAnalysisWorkflow } from './workflows/parralel-workflow';
 import { conditionalWorkflow } from './workflows/conditional-workflow';
 import { personalAssistantAgent } from './agents/personal-assistant';
 
+const port = parseInt(process.env.PORT || "4111", 10);
+
+
 export const mastra = new Mastra({
   workflows: { weatherWorkflow ,aiContentWorkflow,parallelAnalysisWorkflow,conditionalWorkflow},
   agents: { weatherAgent ,financialAgent,memoryAgent ,contentAgent,personalAssistantAgent},
@@ -26,10 +29,10 @@ export const mastra = new Mastra({
     level: 'info',
   }),
   
-  server: { 
-    port: 3000,    
-    timeout: 10000,
-        },
+  server: {
+    host: "0.0.0.0",
+    port: port,
+  },
 
 });
 
